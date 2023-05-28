@@ -8,7 +8,8 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function testWarmupEvents() {
+    public function testWarmupEvents()
+    {
         $datePast = (new Carbon())->subYear()->setDay(21);
         $dateFuture = (new Carbon())->addYears(1);
 
@@ -20,7 +21,8 @@ class ExampleTest extends TestCase
             ->assertJsonPath('2.name', 'React convention '.$dateFuture->year);
     }
 
-    public function testEvents() {
+    public function testEvents()
+    {
         $datePast = (new Carbon())->subYear()->setDay(21);
         $dateFuture = (new Carbon())->addYears(1);
 
@@ -37,7 +39,8 @@ class ExampleTest extends TestCase
             ->assertJsonPath('2.workshops.1.name', 'Navigating the function jungle');
     }
 
-    public function testFutureEvents() {
+    public function testFutureEvents()
+    {
         $dateFuture = (new Carbon())->addYears(1);
 
         $response = $this->get('/futureevents');
@@ -51,7 +54,8 @@ class ExampleTest extends TestCase
             ->assertJsonPath('1.workshops.1.name', 'Navigating the function jungle');
     }
 
-    public function testMenu() {
+    public function testMenu()
+    {
         $response = $this->get('/menu');
         $response->assertStatus(200)
             ->assertJsonCount(1)

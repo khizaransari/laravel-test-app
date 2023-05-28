@@ -119,7 +119,7 @@ class MenuController extends BaseController
             'parent_id' => $item->parent_id,
             'created_at' => $item->created_at,
             'updated_at' => $item->updated_at,
-            'children' => $children,
+            'children' => array_values($children->toArray()),
         ];
     }
 
