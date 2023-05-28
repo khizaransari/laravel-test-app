@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
@@ -92,7 +91,36 @@ class MenuController extends BaseController
     ]
      */
 
-    public function getMenuItems() {
-        throw new \Exception('implement in coding task 3');
+    public function getMenuItems()
+    {
+        $menuItems = MenuItem::all();
+
+        $menu = $menuItems->filter(function ($item) {
+            return $item->parent_id === null;
+        })->map(function ($item) use ($menuItems) {
+            return $this->buildMenuItem($item, $menuItems);
+        });
+
+        return $menu->values();
     }
+
+    private function buildMenuItem($item, $menuItems)
+    {
+        $children = $menuItems->filter(function ($child) use ($item) {
+            return $child->parent_id === $item->id;
+        })->map(function ($child) use ($menuItems) {
+            return $this->buildMenuItem($child, $menuItems);
+        });
+
+        return [
+            'id' => $item->id,
+            'name' => $item->name,
+            'url' => $item->url,
+            'parent_id' => $item->parent_id,
+            'created_at' => $item->created_at,
+            'updated_at' => $item->updated_at,
+            'children' => $children,
+        ];
+    }
+
 }
